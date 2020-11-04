@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+apply from: '../compile_options.gradle'
+apply from: '../dagger_android.gradle'
+apply from: '../data_binding.gradle'
+apply from: '../dependencies_unit_tests.gradle'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        applicationId "com.github.alexdochioiu.githubsample"
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(":common")
+    implementation project(":repository")
+
+    implementation core.support.appcompat
+    implementation core.kotlin.jdk
+    implementation core.kotlin.ktx
+
+    implementation ui.ktx.activity
+    implementation ui.ktx.viewmodel
+    implementation ui.ktx.livedata
+
+    implementation ui.material
+    implementation ui.constraint_layout
+
+    implementation ui.glide
+    kapt ui.glide_kapt
+
+    implementation loggingDependency.timber
+}

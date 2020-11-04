@@ -1,0 +1,6 @@
+dependencies {
+    testImplementation testing.arch_core_testing
+    testImplementation testing.junit
+    testImplementation testing.mockito
+    testImplementation testing.mockito_kotlin
+}

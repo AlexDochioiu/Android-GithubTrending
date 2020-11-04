@@ -1,0 +1,10 @@
+apply plugin: 'kotlin-kapt'
+
+android {
+    buildFeatures {
+        dataBinding true
+    }
+}
+dependencies {
+    kapt "com.android.databinding:compiler:$gradle_version"
+}

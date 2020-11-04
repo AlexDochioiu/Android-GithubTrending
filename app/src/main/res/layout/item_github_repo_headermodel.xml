@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.github.alexdochioiu.githubsample.ui.github.repo.GithubRepoItem.HeaderModel" />
+    </data>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/item_rv_padding"
+        android:paddingHorizontal="@dimen/item_rv_padding"
+        android:text="@{viewModel.text}"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        tools:text="Kotlin" />
+
+</layout>

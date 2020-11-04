@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_padding_standard">14dp</dimen>
+
+    <dimen name="item_rv_padding">10dp</dimen>
+    <dimen name="item_rv_card_margin_horizontal">14dp</dimen>
+    <dimen name="item_rv_card_margin_top">14dp</dimen>
+    <dimen name="github_repo_image_size">60dp</dimen>
+    <dimen name="github_repo_large_image_size">160dp</dimen>
+</resources>

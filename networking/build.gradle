@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+apply from: '../compile_options.gradle'
+apply from: '../dagger_core.gradle'
+apply from: '../dependencies_unit_tests.gradle'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.1"
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(":common")
+
+    api networkingDependencies.okhttp3.okhttp
+    api networkingDependencies.okhttp3.glide_downloader
+
+    implementation networkingDependencies.json_parsing.moshi_adapters
+    implementation networkingDependencies.json_parsing.moshi
+    kapt networkingDependencies.json_parsing.moshi_processor
+
+    implementation networkingDependencies.retrofit2.retrofit
+    implementation networkingDependencies.retrofit2.moshi_converter_adapter
+    implementation networkingDependencies.retrofit2.rxjava3_call_adapter
+
+    implementation loggingDependency.okhttp3_interceptor
+    implementation loggingDependency.timber
+}

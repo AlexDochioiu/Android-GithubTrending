@@ -1,0 +1,5 @@
+include ':repository'
+include ':common'
+include ':networking'
+include ':app'
+rootProject.name = "GithubSample"

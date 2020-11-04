@@ -1,0 +1,6 @@
+apply from: '../dagger_core.gradle'
+
+dependencies {
+    implementation di.dagger.android
+    kapt di.dagger.android_processor
+}

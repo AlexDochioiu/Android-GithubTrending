@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Github Sample</string>
+
+    <string name="github_repo_details_created">Created: %1$s </string>
+    <string name="github_repo_details_last_updated">Last Updated: %1$s </string>
+
+    <string name="dialog_error_title_generic">Oops</string>
+    <string name="dialog_error_message_generic">Something went wrong. Please try again!</string>
+    <string name="button_retry">Retry</string>
+    <string name="button_exit">Exit App</string>
+</resources>
