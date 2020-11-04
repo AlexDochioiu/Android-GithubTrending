@@ -17,19 +17,19 @@ package com.github.alexdochioiu.githubsample.ui.github
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import com.github.alexdochioiu.common.models.github.GithubRepositoryDto
 import com.github.alexdochioiu.common.utils.rx.RxCompositionProvider
-import com.github.alexdochioiu.repository.github.GithubRepository
 import com.github.alexdochioiu.githubsample.R
 import com.github.alexdochioiu.githubsample.core.ui.dialog.DialogFactory
 import com.github.alexdochioiu.githubsample.core.utils.AndroidClassesFactory
 import com.github.alexdochioiu.githubsample.test.*
-import com.github.alexdochioiu.githubsample.ui.GithubRepoActivity
 import com.github.alexdochioiu.githubsample.ui.GithubRepoDetailsActivity
 import com.github.alexdochioiu.githubsample.ui.github.repo.GithubRepoItem
 import com.github.alexdochioiu.githubsample.ui.github.repo.GithubRepoViewModel
+import com.github.alexdochioiu.repository.github.GithubRepository
 import com.nhaarman.mockitokotlin2.*
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -42,7 +42,7 @@ class GithubRepoViewModelTest {
 
     private val repoDtoMock = mock<GithubRepositoryDto>()
 
-    private val activityMock = mock<GithubRepoActivity>()
+    private val activityMock = mock<AppCompatActivity>()
     private val lifecycleRegistry = LifecycleRegistry(activityMock)
 
     private val compositeDisposableMock = mock<CompositeDisposable>()
@@ -62,7 +62,7 @@ class GithubRepoViewModelTest {
         on { makeRepoModel(any()) } doReturn repoModelMock
     }
 
-    private val dialogFactoryMock = mock<DialogFactory<GithubRepoActivity>>()
+    private val dialogFactoryMock = mock<DialogFactory>()
 
     private lateinit var viewModel: GithubRepoViewModel
 
@@ -130,8 +130,8 @@ class GithubRepoViewModelTest {
     @Test
     fun `request fails - show error dialog`() {
         val exception = RuntimeException()
-        val positiveActionCaptor = argumentCaptor<GithubRepoActivity.() -> Unit>()
-        val negativeActionCaptor = argumentCaptor<GithubRepoActivity.() -> Unit>()
+        val positiveActionCaptor = argumentCaptor<AppCompatActivity.() -> Unit>()
+        val negativeActionCaptor = argumentCaptor<AppCompatActivity.() -> Unit>()
 
         whenever(githubRepositoryMock.getTrendingRepositories(any())) doReturn Single.error(
             exception
@@ -160,7 +160,7 @@ class GithubRepoViewModelTest {
     @Test
     fun `error dialog - positive button - retries`() {
         val exception = RuntimeException()
-        val actionCaptor = argumentCaptor<GithubRepoActivity.() -> Unit>()
+        val actionCaptor = argumentCaptor<AppCompatActivity.() -> Unit>()
 
         whenever(githubRepositoryMock.getTrendingRepositories(any())) doReturn Single.error(
             exception
@@ -180,7 +180,7 @@ class GithubRepoViewModelTest {
     @Test
     fun `error dialog - negative button - finishes affinity`() {
         val exception = RuntimeException()
-        val actionCaptor = argumentCaptor<GithubRepoActivity.() -> Unit>()
+        val actionCaptor = argumentCaptor<AppCompatActivity.() -> Unit>()
 
         whenever(githubRepositoryMock.getTrendingRepositories(any())) doReturn Single.error(
             exception

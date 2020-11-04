@@ -21,13 +21,13 @@ import com.github.alexdochioiu.githubsample.ui.github.details.GithubRepoDetailsV
 import com.github.alexdochioiu.githubsample.ui.github.repo.GithubRepoViewModel
 
 class GithubRepoActivity :
-    BaseActivity<GithubRepoActivity, GithubRepoViewModel>(
+    BaseActivity<GithubRepoViewModel>(
         GithubRepoViewModel::class.java,
         R.layout.activity_github_repo,
     )
 
 class GithubRepoDetailsActivity :
-    BaseActivity<GithubRepoDetailsActivity, GithubRepoDetailsViewModel>(
+    BaseActivity<GithubRepoDetailsViewModel>(
         GithubRepoDetailsViewModel::class.java,
         R.layout.activity_github_repo_details,
     )

@@ -18,17 +18,16 @@ package com.github.alexdochioiu.githubsample.core.ui
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle.Event.*
+import androidx.lifecycle.Lifecycle.Event.ON_CREATE
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import com.github.alexdochioiu.githubsample.core.utils.ContextMediator
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-abstract class BaseViewModel<ACTIVITY : AppCompatActivity>(
+abstract class BaseViewModel(
     protected val disposables: CompositeDisposable,
-    val localContextMediator: ContextMediator.Local<ACTIVITY>
+    val localContextMediator: ContextMediator.Local
 ) : ViewModel(), LifecycleObserver {
 
     // I am currently using the save/restore instance state to deduce this. However, I can probably
@@ -36,38 +35,15 @@ abstract class BaseViewModel<ACTIVITY : AppCompatActivity>(
     private var isConfigChange: Boolean = false
 
     @OnLifecycleEvent(ON_CREATE)
-    private fun onCreate() {
-        localContextMediator.withActivityInstance {
-            onCreate(isConfigChange)
-            isConfigChange = false
-        }
+    private fun onActivityCreated() {
+        onActivityCreated(isConfigChange)
+        isConfigChange = false
     }
 
-    @OnLifecycleEvent(ON_RESUME)
-    private fun onResume() {
-        localContextMediator.withActivityInstance {
-            onResume()
-        }
-    }
-
-    @OnLifecycleEvent(ON_PAUSE)
-    private fun onPause() {
-        localContextMediator.withActivityInstance {
-            onPause()
-        }
-    }
-
-    open fun ACTIVITY.onCreate(isConfigChange: Boolean) {
+    open fun onActivityCreated(isConfigChange: Boolean) {
 
     }
 
-    open fun ACTIVITY.onResume() {
-
-    }
-
-    open fun ACTIVITY.onPause() {
-
-    }
 
     @CallSuper
     open fun onRestoreInstanceState(savedInstanceState: Bundle?) {

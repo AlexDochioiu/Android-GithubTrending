@@ -18,7 +18,6 @@ package com.github.alexdochioiu.githubsample.core.ui.recyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle.Event.ON_DESTROY
@@ -38,11 +37,11 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
  * 1. a Diff strategy
  * 2. a generalised way to save and restore adapter position using activity's save/restore instance
  */
-class BindingRecyclerViewAdapter<T : BaseRecyclerViewItem, ACTIVITY : AppCompatActivity>(
-    localContextMediator: ContextMediator.Local<ACTIVITY>,
+class BindingRecyclerViewAdapter<T : BaseRecyclerViewItem>(
+    localContextMediator: ContextMediator.Local,
     private val itemsObservable: Observable<List<T>>,
     private val clickHandler: ClickHandler<T> = ClickHandler { }
-) : RecyclerView.Adapter<BindingRecyclerViewAdapter<T, ACTIVITY>.ViewHolder>(), LifecycleObserver {
+) : RecyclerView.Adapter<BindingRecyclerViewAdapter<T>.ViewHolder>(), LifecycleObserver {
 
     private val disposables = CompositeDisposable()
 

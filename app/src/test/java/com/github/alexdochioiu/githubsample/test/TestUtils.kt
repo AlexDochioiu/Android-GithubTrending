@@ -28,7 +28,7 @@ import io.reactivex.rxjava3.core.SingleTransformer
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 @Suppress("UNCHECKED_CAST")
-val <T : AppCompatActivity> T.testLocalContextMediator: ContextMediator.Local<T>
+val <T : AppCompatActivity> T.testLocalContextMediator: ContextMediator.Local
     get() = mock {
         on { withActivityInstance(any()) } doAnswer {
             (it.arguments[0] as (activity: T) -> Unit).invoke(this@testLocalContextMediator)

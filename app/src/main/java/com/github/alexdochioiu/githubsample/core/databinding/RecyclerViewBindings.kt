@@ -15,7 +15,6 @@
  */
 package com.github.alexdochioiu.githubsample.core.databinding
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.alexdochioiu.githubsample.core.ui.recyclerview.BaseRecyclerViewItem
@@ -28,11 +27,11 @@ object RecyclerViewBindings {
 
     @JvmStatic
     @BindingAdapter(value = ["localContextMediator", "items", "clickHandler"])
-    fun <T : BaseRecyclerViewItem, ACTIVITY : AppCompatActivity> RecyclerView.adapter(
-        localContextMediator: ContextMediator.Local<ACTIVITY>,
+    fun <T : BaseRecyclerViewItem> RecyclerView.adapter(
+        localContextMediator: ContextMediator.Local,
         items: Observable<List<T>>,
         clickHandler: ClickHandler<T>
-    ) = BindingRecyclerViewAdapter<T, ACTIVITY>(localContextMediator, items, clickHandler).also {
+    ) = BindingRecyclerViewAdapter(localContextMediator, items, clickHandler).also {
         adapter = it
     }
 }

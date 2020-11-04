@@ -47,5 +47,5 @@ sealed class ContextMediator<ACTIVITY : AppCompatActivity> {
     class Global @Inject constructor() : ContextMediator<AppCompatActivity>()
 
     @ActivityScope
-    class Local<ACTIVITY : AppCompatActivity> @Inject constructor() : ContextMediator<ACTIVITY>()
+    class Local @Inject constructor() : ContextMediator<AppCompatActivity>()
 }

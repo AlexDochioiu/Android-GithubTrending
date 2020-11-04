@@ -31,11 +31,11 @@ import javax.inject.Inject
 
 class GithubRepoDetailsViewModel @Inject constructor(
     disposables: CompositeDisposable,
-    localContextMediator: ContextMediator.Local<GithubRepoDetailsActivity>,
+    localContextMediator: ContextMediator.Local,
     repositoryDto: GithubRepositoryDto,
     resourceProvider: ResourceProvider,
     dateFormatter: DateFormatter
-) : BaseViewModel<GithubRepoDetailsActivity>(disposables, localContextMediator) {
+) : BaseViewModel(disposables, localContextMediator) {
     val ownerImageUrl = repositoryDto.owner.avatarUrl
     val repositoryName = repositoryDto.name
     val repositoryDescription = repositoryDto.description

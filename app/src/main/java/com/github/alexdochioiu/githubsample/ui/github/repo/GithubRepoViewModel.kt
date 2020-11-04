@@ -28,7 +28,6 @@ import com.github.alexdochioiu.githubsample.core.ui.recyclerview.ClickHandler
 import com.github.alexdochioiu.githubsample.core.utils.AndroidClassesFactory
 import com.github.alexdochioiu.githubsample.core.utils.ContextMediator
 import com.github.alexdochioiu.githubsample.core.utils.exhaustive
-import com.github.alexdochioiu.githubsample.ui.GithubRepoActivity
 import com.github.alexdochioiu.githubsample.ui.GithubRepoDetailsActivity
 import com.github.alexdochioiu.githubsample.ui.github.details.GithubRepoDetailsViewModel
 import com.github.alexdochioiu.repository.github.GithubRepository
@@ -40,14 +39,14 @@ import javax.inject.Inject
 
 class GithubRepoViewModel @Inject constructor(
     disposables: CompositeDisposable,
-    localContextMediator: ContextMediator.Local<GithubRepoActivity>,
+    localContextMediator: ContextMediator.Local,
     private val androidClassesFactory: AndroidClassesFactory,
     private val repository: GithubRepository,
     private val schedulersProvider: RxSchedulersProvider,
     private val compositionProvider: RxCompositionProvider,
     private val rvModelFactory: GithubRepoItem.Factory,
-    private val dialogFactory: DialogFactory<GithubRepoActivity>,
-) : BaseViewModel<GithubRepoActivity>(disposables, localContextMediator) {
+    private val dialogFactory: DialogFactory,
+) : BaseViewModel(disposables, localContextMediator) {
 
     private val _loadingSpinnerVisibility = MutableLiveData(View.GONE)
     val loadingSpinnerVisibility: LiveData<Int> = _loadingSpinnerVisibility
@@ -81,7 +80,7 @@ class GithubRepoViewModel @Inject constructor(
         }.exhaustive
     }
 
-    override fun GithubRepoActivity.onCreate(isConfigChange: Boolean) {
+    override fun onActivityCreated(isConfigChange: Boolean) {
         if (!isConfigChange) {
             fetchRepositories()
         }

@@ -23,8 +23,8 @@ import com.github.alexdochioiu.githubsample.core.utils.ContextMediator
 import javax.inject.Inject
 
 @ActivityScope
-class DialogFactory<ACTIVITY : AppCompatActivity> @Inject constructor(
-    private val localContextMediator: ContextMediator.Local<ACTIVITY>
+class DialogFactory @Inject constructor(
+    private val localContextMediator: ContextMediator.Local
 ) {
 
     fun showDialog(
@@ -32,8 +32,8 @@ class DialogFactory<ACTIVITY : AppCompatActivity> @Inject constructor(
         @StringRes messageResId: Int,
         @StringRes positiveButtonResId: Int,
         @StringRes negativeButtonResId: Int,
-        positiveButtonAction: ACTIVITY.() -> Unit,
-        negativeButtonAction: ACTIVITY.() -> Unit,
+        positiveButtonAction: AppCompatActivity.() -> Unit,
+        negativeButtonAction: AppCompatActivity.() -> Unit,
     ) {
         localContextMediator.withActivityInstance {
             AlertDialog.Builder(this)

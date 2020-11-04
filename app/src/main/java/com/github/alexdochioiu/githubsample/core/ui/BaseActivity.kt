@@ -30,7 +30,7 @@ import dagger.android.HasAndroidInjector
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
-abstract class BaseActivity<SELF : AppCompatActivity, VIEWMODEL : BaseViewModel<SELF>>(
+abstract class BaseActivity<VIEWMODEL : BaseViewModel>(
     private val viewModelClass: Class<VIEWMODEL>,
     @LayoutRes private val layoutResId: Int
 ) : AppCompatActivity(), HasAndroidInjector {
@@ -45,14 +45,11 @@ abstract class BaseActivity<SELF : AppCompatActivity, VIEWMODEL : BaseViewModel<
     lateinit var globalContextMediator: ContextMediator.Global
 
     lateinit var viewModel: VIEWMODEL
-    lateinit var localContextMediator: ContextMediator.Local<SELF> //cannot inject directly because it will fall out of sync during config change
+    lateinit var localContextMediator: ContextMediator.Local //cannot inject directly because it will fall out of sync during config change
 
     private var contextMediatorDisposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        @Suppress("UNCHECKED_CAST") // this is a `hack` to fail fast when [this] is not [SELF]
-        val thisAsSelf: SELF = this as SELF
-
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
@@ -74,10 +71,7 @@ abstract class BaseActivity<SELF : AppCompatActivity, VIEWMODEL : BaseViewModel<
     override fun onResume() {
         super.onResume()
         contextMediatorDisposables.addAll(
-            localContextMediator.observable.subscribe {
-                @Suppress("UNCHECKED_CAST")
-                it.invoke(this as SELF)
-            },
+            localContextMediator.observable.subscribe { it.invoke(this) },
             globalContextMediator.observable.subscribe { it.invoke(this) }
         )
     }

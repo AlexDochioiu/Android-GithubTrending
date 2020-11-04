@@ -17,7 +17,7 @@ package com.github.alexdochioiu.githubsample.test
 
 import org.junit.Assert.assertTrue
 
-inline infix fun Any.assertType(clazz: Class<*>) {
+infix fun Any.assertType(clazz: Class<*>) {
     assertTrue(
         "type is `${this::class.java.simpleName}` instead of `${clazz.simpleName}`",
         clazz.isAssignableFrom(this::class.java)
