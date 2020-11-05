@@ -29,6 +29,7 @@ import dagger.Provides
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
+@ActivityScope
 class GithubRepoDetailsViewModel @Inject constructor(
     disposables: CompositeDisposable,
     localContextMediator: ContextMediator.Local,

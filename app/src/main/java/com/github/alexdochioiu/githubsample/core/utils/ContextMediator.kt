@@ -22,30 +22,30 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.UnicastSubject
 import javax.inject.Inject
 
-sealed class ContextMediator<ACTIVITY : AppCompatActivity> {
+sealed class ContextMediator {
     private val lockObject = Any()
-    private var _subject = UnicastSubject.create<(ACTIVITY) -> Unit>()
+    private var _subject = UnicastSubject.create<(AppCompatActivity) -> Unit>()
         set(value) {
             synchronized(lockObject) {
                 field = value
             }
         }
 
-    val observable: Observable<(ACTIVITY) -> Unit>
+    val observable: Observable<(AppCompatActivity) -> Unit>
         get() = _subject
             .doOnDispose {
                 _subject = UnicastSubject.create()
             }
 
-    fun withActivityInstance(invoker: ACTIVITY.() -> Unit) {
+    fun withActivityInstance(invoker: AppCompatActivity.() -> Unit) {
         synchronized(lockObject) {
             _subject.onNext(invoker)
         }
     }
 
     @ApplicationScope
-    class Global @Inject constructor() : ContextMediator<AppCompatActivity>()
+    class Global @Inject constructor() : ContextMediator()
 
     @ActivityScope
-    class Local @Inject constructor() : ContextMediator<AppCompatActivity>()
+    class Local @Inject constructor() : ContextMediator()
 }
