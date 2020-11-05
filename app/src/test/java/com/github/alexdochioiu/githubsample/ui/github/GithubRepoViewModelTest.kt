@@ -15,7 +15,6 @@
  */
 package com.github.alexdochioiu.githubsample.ui.github
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -25,6 +24,7 @@ import com.github.alexdochioiu.common.utils.rx.RxCompositionProvider
 import com.github.alexdochioiu.githubsample.R
 import com.github.alexdochioiu.githubsample.core.ui.dialog.DialogFactory
 import com.github.alexdochioiu.githubsample.core.utils.AndroidClassesFactory
+import com.github.alexdochioiu.githubsample.core.utils.Navigator
 import com.github.alexdochioiu.githubsample.test.*
 import com.github.alexdochioiu.githubsample.ui.GithubRepoDetailsActivity
 import com.github.alexdochioiu.githubsample.ui.github.repo.GithubRepoItem
@@ -63,6 +63,7 @@ class GithubRepoViewModelTest {
     }
 
     private val dialogFactoryMock = mock<DialogFactory>()
+    private val navigatorMock = mock<Navigator>()
 
     private lateinit var viewModel: GithubRepoViewModel
 
@@ -78,7 +79,8 @@ class GithubRepoViewModelTest {
             testSchedulersProvider,
             compositionProviderMock,
             rvModelFactoryMock,
-            dialogFactoryMock
+            dialogFactoryMock,
+            navigatorMock
         )
 
         lifecycleRegistry.addObserver(viewModel)
@@ -198,17 +200,12 @@ class GithubRepoViewModelTest {
 
     @Test
     fun `repo item clicked - navigates to repo details screen`() {
-        val intentMock = mock<Intent>()
         val bundleMock = mock<Bundle>()
-        whenever(androidClassesFactoryMock.newIntent) doReturn intentMock
         whenever(androidClassesFactoryMock.newBundle) doReturn bundleMock
 
         viewModel.rvClickHandler.onclick(repoModelMock)
 
-        verify(intentMock).setClass(activityMock, GithubRepoDetailsActivity::class.java)
-        verify(intentMock).putExtras(bundleMock)
         verify(bundleMock).putParcelable(any(), same(repoDtoMock))
-
-        verify(activityMock).startActivity(same(intentMock))
+        verify(navigatorMock).navigate(eq(GithubRepoDetailsActivity::class.java), same(bundleMock))
     }
 }

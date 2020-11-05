@@ -19,6 +19,7 @@ import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.github.alexdochioiu.common.di.ActivityScope
 import com.github.alexdochioiu.common.utils.rx.RxCompositionProvider
 import com.github.alexdochioiu.common.utils.rx.RxSchedulersProvider
 import com.github.alexdochioiu.githubsample.R
@@ -27,6 +28,7 @@ import com.github.alexdochioiu.githubsample.core.ui.dialog.DialogFactory
 import com.github.alexdochioiu.githubsample.core.ui.recyclerview.ClickHandler
 import com.github.alexdochioiu.githubsample.core.utils.AndroidClassesFactory
 import com.github.alexdochioiu.githubsample.core.utils.ContextMediator
+import com.github.alexdochioiu.githubsample.core.utils.Navigator
 import com.github.alexdochioiu.githubsample.core.utils.exhaustive
 import com.github.alexdochioiu.githubsample.ui.GithubRepoDetailsActivity
 import com.github.alexdochioiu.githubsample.ui.github.details.GithubRepoDetailsViewModel
@@ -37,6 +39,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import timber.log.Timber
 import javax.inject.Inject
 
+@ActivityScope
 class GithubRepoViewModel @Inject constructor(
     disposables: CompositeDisposable,
     localContextMediator: ContextMediator.Local,
@@ -46,6 +49,7 @@ class GithubRepoViewModel @Inject constructor(
     private val compositionProvider: RxCompositionProvider,
     private val rvModelFactory: GithubRepoItem.Factory,
     private val dialogFactory: DialogFactory,
+    private val navigator: Navigator
 ) : BaseViewModel(disposables, localContextMediator) {
 
     private val _loadingSpinnerVisibility = MutableLiveData(View.GONE)
@@ -59,20 +63,13 @@ class GithubRepoViewModel @Inject constructor(
 
         when (it) {
             is GithubRepoItem.RepoModel -> {
-                // I would normally abstract this in a navigator but I won't get into that at this moment
-                localContextMediator.withActivityInstance {
-                    androidClassesFactory.newIntent.apply {
-                        setClass(this@withActivityInstance, GithubRepoDetailsActivity::class.java)
-                        putExtras(
-                            GithubRepoDetailsViewModel.prepareBundle(
-                                androidClassesFactory.newBundle,
-                                it.dtoModel
-                            )
-                        )
-
-                        startActivity(this)
-                    }
-                }
+                navigator.navigate(
+                    GithubRepoDetailsActivity::class.java,
+                    GithubRepoDetailsViewModel.prepareBundle(
+                        androidClassesFactory.newBundle,
+                        it.dtoModel
+                    )
+                )
             }
             is GithubRepoItem.HeaderModel -> {
                 //NO-OP
